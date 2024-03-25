@@ -52,15 +52,16 @@ const Login = () => {
 };
   const handleValidation = () => {
     const { username, password } = values;
+    if (username === '') {
+      toast.error('Username is required', toastOptions);
+      return false;
+    }
 
     if (password === '') {
       toast.error('Password not given', toastOptions);
       return false;
     }
-    if (username === '') {
-      toast.error('Username is required', toastOptions);
-      return false;
-    }
+    
     if (password.length < 5) {
       toast.error('Password must be at least 5 characters', toastOptions);
       return false;
