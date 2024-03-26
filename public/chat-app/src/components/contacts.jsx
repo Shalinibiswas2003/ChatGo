@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import logo from '../assets/logo.jpg';
+
 function Contacts({ contacts, currentUser, changeChat }) {
   const navigate = useNavigate();
   const [currUsername, setCurrUsername] = useState(undefined);
@@ -67,16 +68,17 @@ Contacts.defaultProps = {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  grid-template-rows: 10% auto 15%;
   overflow: hidden;
   background-color: rgba(224, 67, 148, 0.50);
   gap: 0.3rem;
+  height: 85vh;
 
   .box-container {
     display: flex;
     align-items: center;
-    gap: 1rem;
     justify-content: center;
+    gap: 1rem;
 
     img {
       height: 3rem;
@@ -92,7 +94,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     overflow: auto;
-    gap: 0.9rem;
+    gap: 0.5rem;
 
     &::-webkit-scrollbar {
       width: 0.4rem;
@@ -134,7 +136,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 
     .avatar {
       position: relative;
@@ -174,6 +176,42 @@ const Container = styled.div`
     }
 
     .username {
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .box-container {
+      flex-direction: rows;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .contacts {
+      gap: 0.5rem;
+      .contact{
+        width:100%;
+        font-size:0.8rem;
+      }
+
+  
+}
+
+  @media only screen and (max-width: 480px) {
+    .contacts {
+      gap: 3rem;
+      .contact{
+        min-height:5rem;
+        flex-direction:column
+        
+      }}
+      .current-user{
+        font-size:0.8rem
+      }
+    
+
+    .box-container {
+      img {
+        height: 2.5rem;
+      }
     }
   }
 `;

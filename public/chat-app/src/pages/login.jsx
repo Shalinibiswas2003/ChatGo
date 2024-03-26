@@ -1,11 +1,11 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import logo from '../assets/logo.jpg';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
+import styled from 'styled-components';
+import logo from '../assets/logo.jpg';
 import { LoginRoute } from '../utils/ApiRoutes';
-import { Link, useNavigate } from 'react-router-dom';
 
 const toastOptions = {
   position: 'top-right',
@@ -14,42 +14,41 @@ const toastOptions = {
   pauseOnHover: true,
   theme: 'colored',
 };
- 
+
 const Login = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({ username: '', password: '' });
   const [error, setError] = useState(null);
-  useEffect(()=>{
-    
-    if(localStorage.getItem('chat-app-user'))
-      navigate("/");
+
+  useEffect(() => {
+    if (localStorage.getItem('chat-app-user')) navigate('/');
   });
 
- const handleSubmit = async (event) => {
-  event.preventDefault();
-  if (!handleValidation()) return;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!handleValidation()) return;
 
-  try {
-    const { data } = await axios.post(LoginRoute, values, {
-      headers: { 'Content-Type': 'application/json' },
-    });
-    console.log(data); // Corrected typo here
+    try {
+      const { data } = await axios.post(LoginRoute, values, {
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    if (data.status === false) {
-      const errorMessage = data.error || 'Login failed. Please try again.';
+      if (data.status === false) {
+        const errorMessage = data.error || 'Login failed. Please try again.';
+        setError(errorMessage);
+        toast.error(errorMessage, toastOptions);
+      } else {
+        localStorage.setItem('chat-app-user', JSON.stringify(data.data));
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Login error:', error.response);
+      const errorMessage = error.response?.data.error || 'Login failed. Please try again.';
       setError(errorMessage);
       toast.error(errorMessage, toastOptions);
-    } else {
-      localStorage.setItem('chat-app-user', JSON.stringify(data.data));
-      navigate('/');
     }
-  } catch (error) {
-    console.error('Login error:', error.response);
-    const errorMessage = error.response?.data.error || 'Login failed. Please try again.';
-    setError(errorMessage);
-    toast.error(errorMessage, toastOptions);
-  }
-};
+  };
+
   const handleValidation = () => {
     const { username, password } = values;
     if (username === '') {
@@ -61,11 +60,8 @@ const Login = () => {
       toast.error('Password not given', toastOptions);
       return false;
     }
+
     
-    if (password.length < 5) {
-      toast.error('Password must be at least 5 characters', toastOptions);
-      return false;
-    }
 
     return true;
   };
@@ -78,13 +74,13 @@ const Login = () => {
     <>
       <FormContainer>
         <form onSubmit={handleSubmit}>
-        <div className="box-container">
-  <img src={logo} alt="" />
-  <div>
-    <h1>ChatGo</h1>
-    <h3>Login</h3>
-  </div>
-</div>
+          <div className="box-container">
+            <img src={logo} alt="" />
+            <div>
+              <h1>ChatGo</h1>
+              <h3>Login</h3>
+            </div>
+          </div>
           <input
             type="text"
             placeholder="Enter your name"
@@ -123,6 +119,7 @@ const FormContainer = styled.div`
   align-items: center;
   background-color: #fce1ee;
   gap: 1rem;
+
   .box-container {
     display: flex;
     justify-content: center;
@@ -130,14 +127,17 @@ const FormContainer = styled.div`
     gap: 1rem;
     position: relative;
   }
+
   img {
     height: 5rem;
   }
+
   h1 {
     color: black;
     text-transform: uppercase;
     position: relative;
   }
+
   form {
     display: flex;
     flex-direction: column;
@@ -146,7 +146,13 @@ const FormContainer = styled.div`
     padding: 3rem 5rem;
     box-shadow: 9px -7px 19px 2px rgb(0 1 10 / 50%);
     background-color: rgba(224, 67, 148, 0.50);
+    width: 100%;
+    max-width: 400px;
+    height: 80vh; /* Adjusted height based on viewport */
+    max-height: 600px; /* Added max-height to limit form height on larger screens */
+    overflow-y: auto; /* Added overflow for scrolling on smaller screens */
   }
+
   input {
     background-color: transparent;
     padding: 1rem;
@@ -155,11 +161,13 @@ const FormContainer = styled.div`
     color: black;
     width: 100%;
     font-size: 1rem;
+
     &:focus {
       border: 0.15rem solid #e04394;
       outline: none;
     }
   }
+
   .submit {
     padding: 0.8rem;
     background-color: #fce1ee;
@@ -169,6 +177,7 @@ const FormContainer = styled.div`
     outline: none;
     text-transform: uppercase;
   }
+
   .submit:hover {
     background-color: #faafe2;
     color: black;
@@ -176,22 +185,18 @@ const FormContainer = styled.div`
     font-weight: bold;
     outline: none;
   }
+
   span {
     font-weight: bold;
   }
+
   a {
     font-weight: 500;
     padding: 0.2rem;
   }
+
   a:hover {
     font-weight: 900;
-  }
-  p {
-    display: flex;
-    flex-direction: column;
-  }
-  h3 {
-    padding: 0.8rem;
   }
 `;
 

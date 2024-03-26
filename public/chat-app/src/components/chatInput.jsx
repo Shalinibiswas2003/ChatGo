@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
 import Picker from 'emoji-picker-react';
+import emojiRegex from 'emoji-regex';
+import React, { useEffect, useRef, useState } from 'react';
 import { BsEmojiSmileFill } from 'react-icons/bs';
 import { IoMdSend } from 'react-icons/io';
-import emojiRegex from 'emoji-regex';
+import styled from 'styled-components';
 
 function ChatInput({ handleSendMsg }) {
   const emojiRegexPattern = emojiRegex();
@@ -179,7 +179,12 @@ const Container = styled.div`
       align-items: center;
       background-color: #ffffff34;
     }
+    
   }
+  @media screen and (max-width: 435px) {
+    
+     
+    }
 `;
 
 export default ChatInput;

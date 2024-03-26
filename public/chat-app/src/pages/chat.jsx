@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { allUserRoute, host } from '../utils/ApiRoutes';
-import Contacts from '../components/contacts'; // Assuming correct import path
-import Welcome from '../components/Welcome'; // Assuming correct import path
-import ChatContainer from '../components/ChatContainer'; // Assuming correct import path
 import { io } from "socket.io-client";
+import styled from 'styled-components';
+import ChatContainer from '../components/ChatContainer'; // Assuming correct import path
+import Welcome from '../components/Welcome'; // Assuming correct import path
+import Contacts from '../components/contacts'; // Assuming correct import path
+import { allUserRoute, host } from '../utils/ApiRoutes';
 
 function Chat() {
   const Socket = useRef();
@@ -88,10 +88,25 @@ const Container = styled.div`
     grid-template-columns: 25% 75%;
   }
 
+  @media only screen and (max-width: 1024px) {
+    .container {
+      width: 90vw;
+      
+    }
+  }
+
   @media only screen and (max-width: 768px) {
     .container {
       width: 95vw;
-      grid-template-columns: 100%;
+      grid-template-columns: 25% 75%;
+    }
+  }
+ 
+  @media only screen and (max-width: 480px) {
+    .container {
+      width: 100vw;
+      grid-template-columns: 25% 75%;
+     
     }
   }
 `;

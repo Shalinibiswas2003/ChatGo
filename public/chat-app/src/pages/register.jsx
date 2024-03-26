@@ -1,11 +1,11 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import logo from '../assets/logo.jpg';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
+import styled from 'styled-components';
+import logo from '../assets/logo.jpg';
 import { registerRoute } from '../utils/ApiRoutes';
-import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
   const navigate = useNavigate();
@@ -41,7 +41,6 @@ function Register() {
           setError(data.error || 'Registration failed. Please try again.');
           toast.error(data.error || 'Registration failed. Please try again.', toastOptions);
         } else if (data.status === true) {
-          console.log('Registered successfully');
           localStorage.setItem('chat-app-user', JSON.stringify(data.data));
           navigate('/setAvatar');
         }
@@ -49,17 +48,13 @@ function Register() {
         console.error('Registration error:', error);
   
         if (error.response) {
-          // The request was made, but the server responded with a status code
-          // outside the range of 2xx
           const errorMessage = error.response.data.error || 'Registration failed. Please try again.';
           setError(errorMessage);
           toast.error(errorMessage, toastOptions);
         } else if (error.request) {
-          // The request was made but no response was received
           setError('No response from the server. Please try again.');
           toast.error('No response from the server. Please try again.', toastOptions);
         } else {
-          // Something happened in setting up the request that triggered an Error
           setError('An unexpected error occurred. Please try again.');
           toast.error('An unexpected error occurred. Please try again.', toastOptions);
         }
@@ -100,11 +95,11 @@ function Register() {
       <FormContainer>
         <form onSubmit={(event) => handleSubmit(event)}>
           <div className="box-container">
-            <img src={logo} alt="" />
-            <p>
+            <img src={logo} alt="ChatGo Logo" />
+            <div>
               <h1>ChatGo</h1>
               <h3>Register</h3>
-            </p>
+            </div>
           </div>
           <input
             type="text"
@@ -134,9 +129,7 @@ function Register() {
             onChange={(event) => handleChange(event)}
           />
 
-          <button className="submit" type="submit">
-            Register
-          </button>
+          <SubmitButton type="submit">Register</SubmitButton>
           <br />
 
           <div>
@@ -152,7 +145,7 @@ function Register() {
 }
 
 const FormContainer = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -160,6 +153,7 @@ const FormContainer = styled.div`
   align-items: center;
   background-color: #fce1ee;
   gap: 1rem;
+
   .box-container {
     display: flex;
     justify-content: center;
@@ -167,23 +161,29 @@ const FormContainer = styled.div`
     gap: 1rem;
     position: relative;
   }
+
   img {
     height: 5rem;
   }
+
   h1 {
     color: black;
     text-transform: uppercase;
     position: relative;
   }
+
   form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     border-radius: 2rem;
-    padding: 3rem 5rem;
+    padding: 3rem;
     box-shadow: 9px -7px 19px 2px rgb(0 1 10 / 50%);
     background-color: rgba(224, 67, 148, 0.50);
+    width: 100%;
+    max-width: 400px;
   }
+
   input {
     background-color: transparent;
     padding: 1rem;
@@ -197,38 +197,37 @@ const FormContainer = styled.div`
       outline: none;
     }
   }
-  .submit {
-    padding: 0.8rem;
-    background-color: #fce1ee;
-    color: black;
-    border-radius: 0.5rem;
-    font-size: medium;
-    outline: none;
-    text-transform: uppercase;
+
+  span {
+    font-weight: bold;
   }
-  .submit:hover {
+
+  a {
+    font-weight: 500;
+    padding: 0.2rem;
+    cursor: pointer;
+  }
+
+  a:hover {
+    font-weight: 900;
+  }
+`;
+
+const SubmitButton = styled.button`
+  padding: 0.8rem;
+  background-color: #fce1ee;
+  color: black;
+  border-radius: 0.5rem;
+  font-size: medium;
+  outline: none;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover {
     background-color: #faafe2;
     color: black;
     border-radius: 0.5rem;
     font-weight: bold;
-    outline: none;
-  }
-  span {
-    font-weight: bold;
-  }
-  a {
-    font-weight: 500;
-    padding: 0.2rem;
-  }
-  a:hover {
-    font-weight: 900;
-  }
-  p {
-    display: flex;
-    flex-direction: column;
-  }
-  h3 {
-    padding: 0.8rem;
   }
 `;
 
